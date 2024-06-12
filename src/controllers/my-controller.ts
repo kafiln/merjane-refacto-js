@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/switch-exhaustiveness-check */
 /* eslint-disable max-depth */
 /* eslint-disable no-await-in-loop */
-import {eq} from 'drizzle-orm';
+import { orders, products } from '@/db/schema.js';
+import { eq } from 'drizzle-orm';
 import fastifyPlugin from 'fastify-plugin';
-import {serializerCompiler, validatorCompiler, type ZodTypeProvider} from 'fastify-type-provider-zod';
-import {z} from 'zod';
-import {orders, products} from '@/db/schema.js';
+import { serializerCompiler, validatorCompiler, type ZodTypeProvider } from 'fastify-type-provider-zod';
+import { z } from 'zod';
 
 export const myController = fastifyPlugin(async server => {
 	// Add schema validator and serializer
@@ -77,6 +77,18 @@ export const myController = fastifyPlugin(async server => {
 
 						break;
 					}
+
+					case 'FLASHSALE':
+						const currentDate = new Date();
+						if (currentDate > p.flashSaleStart! && currentDate < p.flashSaleEnd! && p.available > 0 && p.maxFlashSaleQuantity > 0) {
+							p.available -= 1;
+							p.maxFlashSaleQuantity -= 1;
+							await dbse.update(products).set(p).where(eq(products.id, p.id));
+						} else {
+							await ps.handleFlashSaleProduct(p);
+						}
+						break; 
+					
 				}
 			}
 		}

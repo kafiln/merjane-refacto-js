@@ -1,8 +1,8 @@
-import {type Cradle} from '@fastify/awilix';
-import {eq} from 'drizzle-orm';
-import {type INotificationService} from '../notifications.port.js';
-import {products, type Product} from '@/db/schema.js';
-import {type Database} from '@/db/type.js';
+import { products, type Product } from '@/db/schema.js';
+import { type Database } from '@/db/type.js';
+import { type Cradle } from '@fastify/awilix';
+import { eq } from 'drizzle-orm';
+import { type INotificationService } from '../notifications.port.js';
 
 export class ProductService {
 	private readonly ns: INotificationService;
@@ -44,5 +44,11 @@ export class ProductService {
 			p.available = 0;
 			await this.db.update(products).set(p).where(eq(products.id, p.id));
 		}
+	}
+
+	public async handleFlashSaleProduct(p: Product): Promise<void> {
+		this.ns.sendOutOfStockNotification(p.name);
+		p.available = 0;
+		await this.db.update(products).set(p).where(eq(products.id, p.id));
 	}
 }
