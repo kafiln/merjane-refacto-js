@@ -12,11 +12,14 @@ CREATE TABLE IF NOT EXISTS "products" (
 	"id" serial PRIMARY KEY NOT NULL,
 	"lead_time" integer NOT NULL,
 	"available" integer NOT NULL,
-	"type" varchar(256) NOT NULL,
+	"type" "type" DEFAULT 'NORMAL' NOT NULL,
 	"name" varchar(256) NOT NULL,
 	"expiry_date" date,
 	"season_start_date" date,
-	"season_end_date" date
+	"season_end_date" date,
+	"flash_sale_start" date,
+	"flash_sale_end" date,
+	"max_flash_sale_quantity" integer NOT NULL
 );
 --> statement-breakpoint
 DO $$ BEGIN

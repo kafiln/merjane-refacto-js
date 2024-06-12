@@ -1,5 +1,5 @@
 {
-  "id": "92b7db9b-75e2-4133-8f85-52c03171376d",
+  "id": "b382acf5-77b3-4ecc-aa63-4fc953dc901e",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -101,9 +101,11 @@
         },
         "type": {
           "name": "type",
-          "type": "varchar(256)",
+          "type": "type",
+          "typeSchema": "public",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "default": "'NORMAL'"
         },
         "name": {
           "name": "name",
@@ -128,6 +130,24 @@
           "type": "date",
           "primaryKey": false,
           "notNull": false
+        },
+        "flash_sale_start": {
+          "name": "flash_sale_start",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "flash_sale_end": {
+          "name": "flash_sale_end",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "max_flash_sale_quantity": {
+          "name": "max_flash_sale_quantity",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
         }
       },
       "indexes": {},
